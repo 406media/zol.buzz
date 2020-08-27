@@ -1,6 +1,6 @@
 var GitIO = new (function() {
 
-  var API_ENDPOINT  = "https://git.io/";
+  var API_ENDPOINT  = "https://zol.buzz/";
   var DOMAINS = [
     "github.com",
     "github.io",
@@ -28,6 +28,7 @@ var GitIO = new (function() {
     return MATCH_DOMAINS.test(url.host);
   };
 
+  /*
   var requestForShortenUrl = function(url, callback) {
     var xhr = new XMLHttpRequest();
     var form_data = new FormData();
@@ -59,6 +60,20 @@ var GitIO = new (function() {
     xhr.open("POST", API_ENDPOINT, true);
     xhr.send(form_data);
   };
+  */
+  var requestForShortenUrl = function(url, callback) {
+    var request = new XMLHttpRequest()
+    
+    request.open('GET', 'https://zol.buzz/api/?key=miIImpHKuJKx&url='+this.getResponseHeader("Location"), true)
+    request.onload = function () {
+      // Begin accessing JSON data here
+    }
+    // Send request
+    request.send();
+  }
+  
+  
+  
 })();
 
 // register service for this extension
