@@ -2,7 +2,7 @@ var GitIO = new (function() {
 
   var API_ENDPOINT  = "https://zol.buzz/";
   var DOMAINS = [
-    "github.com",
+    "stonedcitizen.com",
     "github.io",
     "githubusercontent.com"
   ];
@@ -64,9 +64,26 @@ var GitIO = new (function() {
   var requestForShortenUrl = function(url, callback) {
     var request = new XMLHttpRequest()
     
-    request.open('GET', 'https://zol.buzz/api/?key=miIImpHKuJKx&url='+this.getResponseHeader("Location"), true)
-    request.onload = function () {
-      // Begin accessing JSON data here
+    request.open('GET', 'https://zol.buzz/api/?key=miIImpHKuJKx&url='+url, true)
+    request.onload = function (e) {
+      switch (this.error) {
+        case 0: // CREATED
+          callback({
+            "status": "OK",
+            "shortened_url": this.short;
+          });
+          break;
+
+        default: // Something Went Wrong!
+          callback({
+            "status": "Error",
+            "error": {
+              "code": this.error,
+              "message": this.msg
+            }
+          });
+          break;
+      }
     }
     // Send request
     request.send();
